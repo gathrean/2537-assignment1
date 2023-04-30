@@ -154,7 +154,7 @@ app.get('/logout', (req, res) => {
     const randomImage = images[Math.floor(Math.random() * images.length)];
     res.render('members', {
       username: req.session.username,
-      imageUrl: '/images/' + randomImage,
+      imageUrl: randomImage,
     });
 });
 
