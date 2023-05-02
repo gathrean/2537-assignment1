@@ -7,7 +7,7 @@ const MongoStore = require('connect-mongo');
 const bcrypt = require('bcrypt');
 const saltRounds = 12;
 
-const port = process.env.PORT || 8080;
+const port = process.env.PORT || 8086;
 
 const app = express();
 const path = require('path');
@@ -220,7 +220,7 @@ app.post('/loggingin', async (req, res) => {
     req.session.email = email;
     req.session.loggedIn = true;
 
-    req.session.cookie.expires = new Date(Date.now() + expireTime);
+    req.session.cookie.expires = new Date(Date.now() + expireTime * 60 * 60 * 1000); // expire after 1 hour
 
     res.redirect('/members');
   } else {
@@ -256,7 +256,7 @@ app.get('/members', (req, res) => {
   const username = req.session.username;
   const image = getRandomImage();
   if (!username) {
-    res.redirect('/');
+    res.redirect('/login');
   } else {
     res.send(`
     <h1>Welcome back, ${username}!</h1>
