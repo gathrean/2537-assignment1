@@ -13,7 +13,6 @@ const app = express();
 const path = require('path');
 const Joi = require("joi");
 
-// Setting the expiration time for the session to 1 hour
 const expireTime = 1;
 
 
@@ -55,9 +54,11 @@ app.use(session({
   secret: node_session_secret,
   store: mongoStore, //default is memory store 
   saveUninitialized: false,
-  resave: true
-}
-));
+  resave: true,
+  cookie: {
+    maxAge: 60 * 60 * 1000 // 1 hour in milliseconds
+  }
+}));
 
 
 // A home page links to signup and login, if not logged in; and links to members and signout, if logged in.
@@ -219,7 +220,7 @@ app.post('/loggingin', async (req, res) => {
     req.session.email = email;
     req.session.loggedIn = true;
 
-    req.session.cookie.expires = new Date(Date.now() + expireTime * 60 * 60 * 1000); // expire after 1 hour
+    req.session.cookie.expires = new Date(Date.now() + expireTime);
 
     res.redirect('/members');
   } else {
