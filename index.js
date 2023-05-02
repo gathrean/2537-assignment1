@@ -255,7 +255,7 @@ app.get('/members', (req, res) => {
   const username = req.session.username;
   const image = getRandomImage();
   if (!username) {
-    res.redirect('/login');
+    res.redirect('/');
   } else {
     res.send(`
     <h1>Welcome back, ${username}!</h1>
